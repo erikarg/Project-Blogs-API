@@ -44,10 +44,25 @@ const deletePost = async (req, res) => {
   return res.status(204).json();
 };
 
+const searchPost = async (req, res) => {
+  const { q } = req.query;
+  const allPosts = await blogPostService.getBlogPosts();
+  if (!q || q === '') {
+    return res.status(200).json(allPosts);
+  }
+  const post = await allPosts.filter(({
+    title, content }) => title.includes(q) || content.includes(q));
+    if (!post || post === undefined) {
+      return res.status(200).json({ message: 'No posts found' });
+    }
+  return res.status(200).json(post);
+};
+
 module.exports = {
     createPost,
     getPosts,
     getPostById,
     updatePost,
     deletePost,
+    searchPost,
 };

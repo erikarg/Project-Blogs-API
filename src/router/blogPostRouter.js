@@ -9,6 +9,8 @@ blogPostRouter.post('/', tokenValidator, blogPostController.createPost);
 
 blogPostRouter.get('/', tokenValidator, blogPostController.getPosts);
 
+blogPostRouter.get('/search', tokenValidator, blogPostController.searchPost);
+
 blogPostRouter.get('/:id', tokenValidator, blogPostController.getPostById);
 
 blogPostRouter.put('/:id', tokenValidator, authUpdate, blogPostController.updatePost); 
