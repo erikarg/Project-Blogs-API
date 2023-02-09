@@ -31,10 +31,10 @@ const getPostById = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id } = req.params;
   const { title, content, categoryIds } = req.body;
-  const post = await blogPostService.updateBlogPost(id, title, content, categoryIds);
-  if (!post || post === undefined) {
-    return res.status(404).json({ message: 'Post cant be updated' });
+  if (title === '' || content === '' || categoryIds === '') {
+    return res.status(400).json({ message: 'Some required fields are missing' });
   }
+  const post = await blogPostService.updateBlogPost(id, title, content, categoryIds);
   return res.status(200).json(post);
 };
 
