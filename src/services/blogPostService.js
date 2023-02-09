@@ -1,10 +1,14 @@
-const { BlogPost, Category, User } = require('../models');
+const Sequelize = require('sequelize');
+const config = require('../config/config');
+const { BlogPost, Category, User, PostCategory } = require('../models');
 const {
   validateTitle,
   validateContent,
   validateCategoryId,
   validateFields,
 } = require('../middlewares/validateData');
+
+const sequelize = new Sequelize(config[process.env.NODE_ENV]);
 
 const createBlogPost = async (title, content, categoryIds, userId) => {
   const existTitle = validateTitle(title);
@@ -15,9 +19,19 @@ const createBlogPost = async (title, content, categoryIds, userId) => {
   if (existContent) return existContent;
   if (existCategoryId) return existCategoryId;
 
-  const getBlogPost = await BlogPost.create({ title, content, userId });
+  const t = await sequelize.transaction();
+  try {
+    const getBlogPost = await BlogPost.create({ title, content, userId }, { transaction: t });
+    const { id } = getBlogPost.dataValues;
 
-  return getBlogPost;
+    await Promise.all(categoryIds.map(async (category) =>
+      PostCategory.create({ postId: id, categoryId: category }, { transaction: t })));
+    await t.commit();
+    return getBlogPost;
+  } catch (error) {
+    await t.rollback();
+    throw error;
+  }
 };
 
 const getBlogPosts = async () => {
