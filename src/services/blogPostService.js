@@ -6,7 +6,7 @@ const {
     validateFields,
 } = require('../middlewares/validateData');
 
-const createBlogPost = async ({ title, content, categoryIds }, userId) => {
+const createBlogPost = async (title, content, categoryIds, userId) => {
     const existTitle = validateTitle(title);
     const existContent = validateContent(content);
     const existCategoryId = await validateCategoryId(categoryIds);

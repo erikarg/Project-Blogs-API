@@ -4,11 +4,13 @@ const createPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
   const { id } = req.payload;
 
-  const blogPost = await blogPostService.createBlogPost(title, content, categoryIds, id);
-
-  if (blogPost === undefined) {
+  if (!title || !content || !categoryIds) {
     return res.status(400).json({ message: 'Some required fields are missing' });
   }
+
+  const blogPost = await blogPostService.createBlogPost(title, content, categoryIds, id);
+  
+  if (blogPost.message) return res.status(blogPost.status).json({ message: blogPost.message });
   return res.status(201).json(blogPost);
 };
 

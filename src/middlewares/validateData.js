@@ -54,14 +54,15 @@ const validateContent = (content) => {
 };
 
 const validateCategoryId = async (categoryIds) => {
-  if (!categoryIds || categoryIds === '') {
+  if (!categoryIds) {
     return { status: 400, message: '"categoryIds" is required' };
   }
   const verifyCategoryIds = await Category.findAll({
     where: { id: categoryIds },
   });
+
   if (verifyCategoryIds.length !== categoryIds.length) {
-    return { status: 400, message: '"categoryIds" not found' };
+    return { status: 400, message: 'one or more "categoryIds" not found' };
   }
 };
 

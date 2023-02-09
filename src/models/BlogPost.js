@@ -6,12 +6,13 @@ const BlogPost = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
+        primaryKey: true,
       },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       published: DataTypes.DATE,
       updated: DataTypes.DATE,
-      user_id: { type: DataTypes.INTEGER, foreignKey: true },
+      userId: { type: DataTypes.INTEGER, foreignKey: true },
     },
     {
       tableName: 'blog_posts',
@@ -23,7 +24,7 @@ const BlogPost = (sequelize, DataTypes) => {
   BlogPost.associate = (models) => {
     BlogPost.belongsTo(models.User, {
       as: 'user',
-      foreignKey: 'user_id',
+      foreignKey: 'userId',
     });
   };
   return BlogPost;
