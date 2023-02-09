@@ -6,7 +6,9 @@ const {
 } = require('../middlewares/validateData');
 
 const checkDatabase = async (email, password) => {
-  if (!email || !password) return { status: 400, message: 'Some required fields are missing' };
+  if (!email || !password) {
+    return { status: 400, message: 'Some required fields are missing' };
+  }
   const emailValidation = await validateEmailLogin(email);
   const passwordValidation = validatePasswordLogin(password);
 

@@ -5,12 +5,21 @@ const createPost = async (req, res) => {
   const { id } = req.payload;
 
   if (!title || !content || !categoryIds) {
-    return res.status(400).json({ message: 'Some required fields are missing' });
+    return res
+      .status(400)
+      .json({ message: 'Some required fields are missing' });
   }
 
-  const blogPost = await blogPostService.createBlogPost(title, content, categoryIds, id);
-  
-  if (blogPost.message) return res.status(blogPost.status).json({ message: blogPost.message });
+  const blogPost = await blogPostService.createBlogPost(
+    title,
+    content,
+    categoryIds,
+    id,
+  );
+
+  if (blogPost.message) {
+    return res.status(blogPost.status).json({ message: blogPost.message });
+  }
   return res.status(201).json(blogPost);
 };
 
@@ -32,9 +41,16 @@ const updatePost = async (req, res) => {
   const { id } = req.params;
   const { title, content, categoryIds } = req.body;
   if (title === '' || content === '' || categoryIds === '') {
-    return res.status(400).json({ message: 'Some required fields are missing' });
+    return res
+      .status(400)
+      .json({ message: 'Some required fields are missing' });
   }
-  const post = await blogPostService.updateBlogPost(id, title, content, categoryIds);
+  const post = await blogPostService.updateBlogPost(
+    id,
+    title,
+    content,
+    categoryIds,
+  );
   return res.status(200).json(post);
 };
 
@@ -50,19 +66,20 @@ const searchPost = async (req, res) => {
   if (!q || q === '') {
     return res.status(200).json(allPosts);
   }
-  const post = await allPosts.filter(({
-    title, content }) => title.includes(q) || content.includes(q));
-    if (!post || post === undefined) {
-      return res.status(200).json({ message: 'No posts found' });
-    }
+  const post = await allPosts.filter(
+    ({ title, content }) => title.includes(q) || content.includes(q),
+  );
+  if (!post || post === undefined) {
+    return res.status(200).json({ message: 'No posts found' });
+  }
   return res.status(200).json(post);
 };
 
 module.exports = {
-    createPost,
-    getPosts,
-    getPostById,
-    updatePost,
-    deletePost,
-    searchPost,
+  createPost,
+  getPosts,
+  getPostById,
+  updatePost,
+  deletePost,
+  searchPost,
 };

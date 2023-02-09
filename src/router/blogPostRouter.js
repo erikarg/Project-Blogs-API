@@ -13,9 +13,19 @@ blogPostRouter.get('/search', tokenValidator, blogPostController.searchPost);
 
 blogPostRouter.get('/:id', tokenValidator, blogPostController.getPostById);
 
-blogPostRouter.put('/:id', tokenValidator, authUpdate, blogPostController.updatePost); 
+blogPostRouter.put(
+  '/:id',
+  tokenValidator,
+  authUpdate,
+  blogPostController.updatePost,
+);
 
-blogPostRouter.delete('/:id', tokenValidator, authUpdate, blogPostController.deletePost);
+blogPostRouter.delete(
+  '/:id',
+  tokenValidator,
+  authUpdate,
+  blogPostController.deletePost,
+);
 
 module.exports = {
   blogPostRouter,

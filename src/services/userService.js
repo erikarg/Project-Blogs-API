@@ -21,14 +21,16 @@ const createUser = async (displayName, email, password, image) => {
     expiresIn: '1d',
     algorithm: 'HS256',
   };
-  
+
   const user = await User.findOne({ where: { email } });
   const token = jwt.sign({ data: user }, process.env.JWT_SECRET, jwtConfig);
   return { token };
 };
 
 const getUsers = async () => {
-  const listOfUsers = await User.findAll({ attributes: { exclude: ['password'] } });
+  const listOfUsers = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
   return listOfUsers;
 };
 
