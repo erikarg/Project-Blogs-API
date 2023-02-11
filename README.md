@@ -31,7 +31,7 @@ Construir uma API Rest e um banco de dados para a produção de conteúdo para u
 
 * Execute o terminal do container:
 
-`docker exec -it bash blogs_api`
+`docker exec -it blogs_api bash`
 
 * Instale as dependências, crie e popule o banco de dados: 
 
