@@ -108,7 +108,7 @@ Build a Rest API and a database to produce content for a blog. For this purpose,
 
 * Run the container terminal:
 
-`docker exec -it bash blogs_api`
+`docker exec -it blogs_api bash`
 
 * Installl dependencies, create and populate the database: 
 
